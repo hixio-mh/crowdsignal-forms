@@ -62,8 +62,6 @@ const EditFeedbackBlock = ( props ) => {
 	const triggerButton = useRef( null );
 	const popover = useRef( null );
 
-	const accountInfo = useAccountInfo();
-
 	const { error: saveError, save: saveBlock } = useAutosave(
 		async ( data ) => {
 			dispatch( 'core/editor' ).lockPostSaving( clientId );
@@ -174,6 +172,8 @@ const EditFeedbackBlock = ( props ) => {
 	const handleChangeAttribute = ( key ) => ( value ) =>
 		setAttributes( { [ key ]: value } );
 
+	const accountInfo = get( useAccountInfo(), 'data', {} );
+
 	const shouldPromote = get( accountInfo, [
 		'signalCount',
 		'shouldDisplay',
@@ -206,7 +206,7 @@ const EditFeedbackBlock = ( props ) => {
 			null !== attributes.closedAfterDateTime &&
 			new Date().toISOString() > attributes.closedAfterDateTime );
 
-	const hideBranding = get( accountInfo, 'capabilities' ).includes(
+	const hideBranding = get( accountInfo, 'capabilities', [] ).includes(
 		'hide-branding'
 	);
 
